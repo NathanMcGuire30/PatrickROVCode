@@ -22,5 +22,5 @@ while True:
          pygame.event.get()
          Xaxis = int(joystick.get_axis(3)*50)
          c.send(bytes(str(Xaxis), 'UTF-8'))
-         time.sleep(.2)
+         time.sleep(.1)
     c.close()
