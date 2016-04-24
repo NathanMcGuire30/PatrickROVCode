@@ -20,7 +20,8 @@ while True:
     print('Got connection from', addr)
     while True:
          pygame.event.get()
-         Xaxis = int(joystick.get_axis(3)*50)
+         Xaxis = int(joystick.get_axis(3)*127)
+         Xaxis += 127;
          c.send(bytes(str(Xaxis), 'UTF-8'))
          time.sleep(.1)
     c.close()
