@@ -21,7 +21,7 @@ endLoop = False
 
 s = socket.socket()
 s.bind((host, port))
-6y7t
+
 while True:
     s.listen(5)
     c, addr = s.accept()
