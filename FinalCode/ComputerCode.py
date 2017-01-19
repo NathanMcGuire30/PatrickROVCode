@@ -12,14 +12,16 @@ joystick.init()
 
 
 host = '10.0.0.7'  # My IP.  Will need to be changed most times the code is run
-port = 12345
+port = 12345       # the port to use
+# IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRETLY AND YOU WILL HAVE
+#TO CHANGE THE PORT.
 
 i = 0
 endLoop = False
 
 s = socket.socket()
 s.bind((host, port))
-
+6y7t
 while True:
     s.listen(5)
     c, addr = s.accept()
