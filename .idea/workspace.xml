@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f5fdfa6c-881a-43f0-9a0c-f2483e5f36f7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FinalCode/ComputerCode.py" afterPath="$PROJECT_DIR$/FinalCode/ComputerCode.py" />
-    </list>
+    <list default="true" id="f5fdfa6c-881a-43f0-9a0c-f2483e5f36f7" name="Default" comment="" />
     <ignored path="RobotCode.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +36,8 @@
       <file leaf-file-name="ComputerCode.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FinalCode/ComputerCode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.07363421">
-              <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.32304037">
+              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding>
                 <element signature="e#30#43#0" expanded="true" />
               </folding>
@@ -381,7 +379,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="171" y="145" width="1026" height="558" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28710938" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -738,8 +736,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FinalCode/ComputerCode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07363421">
-          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.32304037">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding>
             <element signature="e#30#43#0" expanded="true" />
           </folding>
