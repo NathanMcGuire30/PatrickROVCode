@@ -1,13 +1,10 @@
 import serial
+import time
 
-ser = serial.Serial("/dev/ttyACM0", 9600, timeout=None)
+ser = serial.Serial("/dev/ttyACM0", 9600, write_timeout=.1)
+message = 1
 while True:
-    message = "5"
-    ser.write(message.encode())
+    ser.write(str(message).encode())
+    message+=1
 
-    s = str(ser.readline(1))
-    s=s.split("'")
-    t=s[1]
-    t=t.split("\\")
-    number = t[0]
-    print(number)
+    time.sleep(.5)

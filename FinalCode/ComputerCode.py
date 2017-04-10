@@ -24,10 +24,13 @@ s.bind((host, port))
 
 #This is a comment
 while True:
+    print("waiting for connection")                 #wait for connection
+    endLoop = False
     s.listen(5)
     c, addr = s.accept()
     print('Got connection from', addr)
-    while (endLoop == False):
+
+    while (endLoop == False):                       #send values
         pygame.event.get()
 
         #read values
@@ -53,5 +56,5 @@ while True:
         except (ConnectionResetError, BrokenPipeError):
             print("connection terminated")
             endLoop = True
-        time.sleep(.1)
+        time.sleep(.5)
 c.close()
