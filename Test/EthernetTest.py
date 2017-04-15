@@ -1,30 +1,17 @@
-data = None
 from socket import *
-import select
+import time
+ 
+arduinoAddress = ( '10.0.0.243', 5000)
+arduinoSocket = socket(AF_INET, SOCK_DGRAM)
+arduinoSocket.settimeout(1) #only wait 1 second for a resonse
+count = 100
 
-timeout = 3 # timeout in seconds
-msg = "test"
+while(1): #Main Loop
 
-host = "10.0.0.11"
-print ("Connecting to " + host)
+    count += 1
+    print(count)
+    data = bytes(str(count), 'UTF-8')  #Set data to Blue Command
+    arduinoSocket.sendto(data, arduinoAddress) #send command to arduino
 
-port = 23
-
-s = socket(AF_INET, SOCK_STREAM)
-print("Socket made")
-
-ready = select.select([s],[],[],timeout)
-
-
-s.connect((host,port))
-print("Connection made")
-
-
-if ready[0]:        #if data is actually available for you
-    print("[INFO] Sending message...")
-    s.send(bytes("12345", 'UTF-8'))
-    print("[INFO] Message sent.")
-
-    data = s.recv(4096)
-    print("[INFO] Data received")
-    print(data)
+ 
+    time.sleep(.1) #delay before sending next command

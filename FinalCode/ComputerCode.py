@@ -11,7 +11,7 @@ joystick = pygame.joystick.Joystick(0)
 joystick.init()
 
 
-host = '10.0.0.7'  # My IP.  Will need to be changed most times the code is run
+host = '10.0.0.15'  # My IP.  Will need to be changed most times the code is run
 port = 12345       # the port to use
 # IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRETLY AND YOU WILL HAVE
 #TO CHANGE THE PORT.
@@ -56,5 +56,5 @@ while True:
         except (ConnectionResetError, BrokenPipeError):
             print("connection terminated")
             endLoop = True
-        time.sleep(.5)
+        time.sleep(.1)
 c.close()

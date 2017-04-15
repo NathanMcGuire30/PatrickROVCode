@@ -1,16 +1,18 @@
-import socket
-import serial
+from socket import *
 
-s = socket.socket()
-host = '10.0.0.7' # ip laptop
-port = 12345
-s.connect((host, port))
+computerSocket = socket()
+computerAddress = '10.0.0.15' # ip laptop
+computerPort = 12345
+computerSocket.connect((computerAddress, computerPort))
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
+arduinoAddress = ('10.0.0.243', 5000)
+arduinoSocket = socket(AF_INET, SOCK_DGRAM)
+arduinoSocket.settimeout(1) #only wait 1 second for a resonse
+
 
 while True:
     #read bytes and turn them into a meaningful string
-    inbytes = (s.recv(1024))
+    inbytes = (computerSocket.recv(1024))
     text = str(inbytes)
     text = text.split("'")
     inValuesString = text[1]
@@ -18,7 +20,11 @@ while True:
     #sends out values from joystick
     surge = inValuesString.split(",")[0]                        #Front-Back
     sway = inValuesString.split(",")[1]                         #Left-right
+    yaw = inValuesString.split(",")[2]                          #turning
     heave = inValuesString.split(",")[3]                        #Up-down
-    ser.write(surge.encode())
+
+    fullData = surge + "," + sway + "," + heave + "," + yaw
+    arduinoSocket.sendto(bytes(fullData, 'UTF-8'), arduinoAddress) #send command to arduino
+
     print(surge.encode())
-s.close()
+computerSocket.close()
