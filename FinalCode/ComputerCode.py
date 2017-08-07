@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #Code to run on the computer
 
 import socket
@@ -11,7 +12,7 @@ joystick = pygame.joystick.Joystick(0)
 joystick.init()
 
 
-host = '10.0.0.15'  # My IP.  Will need to be changed most times the code is run
+host = '172.16.0.4'  # My IP.  Will need to be changed most times the code is run
 port = 12345       # the port to use
 # IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRETLY AND YOU WILL HAVE
 #TO CHANGE THE PORT.
@@ -34,21 +35,21 @@ while True:
         pygame.event.get()
 
         #read values
-        Xaxis = int(joystick.get_axis(1)*-256)
-        if Xaxis == -255:
-            Xaxis = -256
+        Xaxis = int(joystick.get_axis(1)*-255)
+        if Xaxis == -254:
+            Xaxis = -255
 
-        Yaxis = int(joystick.get_axis(0)*-256)
-        if Yaxis == -255:
-            Yaxis = -256
+        Yaxis = int(joystick.get_axis(0)*-255)
+        if Yaxis == -254:
+            Yaxis = -255
 
-        Zaxis = int(joystick.get_axis(2)*-256)
-        if Zaxis == -255:
-            Zaxis = -256
+        Zaxis = int(joystick.get_axis(2)*-255)
+        if Zaxis == -254:
+            Zaxis = -255
 
-        Taxis = int(joystick.get_axis(3)*-256)
-        if Taxis == -255:
-            Taxis = -256
+        Taxis = int(joystick.get_axis(3)*-255)
+        if Taxis == -254:
+            Taxis = -255
 
         final = str(Xaxis) + "," + str(Yaxis) + "," + str(Zaxis) + "," + str(Taxis)
         try:
