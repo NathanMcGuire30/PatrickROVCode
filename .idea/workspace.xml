@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57bf265d-d742-43db-afa9-86d03769d969" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/RobotCode.iml" afterPath="$PROJECT_DIR$/.idea/RobotCode.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FinalCode/ComputerCode.py" afterPath="$PROJECT_DIR$/FinalCode/ComputerCode.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FinalCode/RaspberryPiCode.py" afterPath="$PROJECT_DIR$/FinalCode/RaspberryPiCode.py" />
-    </list>
+    <list default="true" id="57bf265d-d742-43db-afa9-86d03769d969" name="Default" comment="" />
     <ignored path="RobotCode.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,7 +36,7 @@
       <file leaf-file-name="RaspberryPiCode.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FinalCode/RaspberryPiCode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.63973796">
+            <state vertical-scroll-proportion="0.0">
               <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
@@ -65,8 +59,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="135" />
-    <option name="y" value="114" />
+    <option name="x" value="136" />
+    <option name="y" value="142" />
     <option name="width" value="1026" />
     <option name="height" value="558" />
   </component>
@@ -99,7 +93,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="135" y="114" width="1026" height="558" extended-state="0" />
+    <frame x="136" y="142" width="1026" height="558" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -137,6 +131,16 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/FinalCode/ComputerCode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#53#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FinalCode/ComputerCode.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -229,7 +233,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FinalCode/RaspberryPiCode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63973796">
+        <state vertical-scroll-proportion="0.0">
           <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
