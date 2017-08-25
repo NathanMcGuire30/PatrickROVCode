@@ -36,21 +36,23 @@ while True:
         angle = 0.0
 
     absolutePower = math.sqrt(surge * surge + sway * sway)
-    if surge > sway:
-        maxPowerScaleFactor = 255/surge
+    if absolutePower != 0:
+        if abs(surge) > abs(sway):
+          maxPowerScaleFactor = 255/surge
+        else:
+            maxPowerScaleFactor = 255/sway
+        maxPower = absolutePower * maxPowerScaleFactor
+        scaledPower = abs((absolutePower/maxPower)*255)
     else:
-        maxPowerScaleFactor = 255/sway
-    maxPower = absolutePower * maxPowerScaleFactor
-    scaledPower = (absolutePower/maxPower)*255
+        scaledPower = 0
 
     frontLeftPower = int(scaledPower * math.cos(math.radians(angle)))
     rearRightPower = int(scaledPower * math.sin(math.radians(angle)))
     rearLeftPower = frontLeftPower * -1
     frontRightPower = rearRightPower * -1
 
-    print(scaledPower)
     #Steering code
-    yaw *= .1                       #Steering scaling value.  Bigger = harder steering
+    yaw *= .5                       #Steering scaling value.  Bigger = harder steering max is 1, min is 0 but less than .1 does not do anything
 
     frontLeftPower += yaw
     frontRightPower -= yaw
@@ -58,10 +60,12 @@ while True:
     rearRightPower += yaw
 
     #Vertical code
-    leftVerticalPower = heave
-    rightVerticalPower = heave
+    leftVerticalPower = int(heave)
+    rightVerticalPower = int(heave)
 
-    #fullData = frontLeftPower + "," + frontRightPower + "," + rearLeftPower + "," + rearRightPower + "," + leftVerticalPower + "," + rightVerticalPower
+    fullData = str(int(frontLeftPower)) + "," + str(int(frontRightPower)) + "," + str(int(rearLeftPower)) + "," + str(int(rearRightPower)) + "," + str(leftVerticalPower) + "," + str(rightVerticalPower) + ",0"
 
-    #arduinoSocket.sendto(bytes(fullData, 'UTF-8'), arduinoAddress) #send command to arduino
+    print(fullData)
+
+    arduinoSocket.sendto(bytes(fullData, 'UTF-8'), arduinoAddress) #send command to arduino
 computerSocket.close()

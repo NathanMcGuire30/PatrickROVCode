@@ -3,12 +3,12 @@
 #include <SPI.h>
 #include <LiquidCrystal.h>
 
-LiquidCrystal lcd(22, 6, 5, 4, 3, 2);
+//LiquidCrystal lcd(22, 6, 5, 4, 3, 2);
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE};       //Assign a mac address
 IPAddress ip(172, 16, 0, 3);                              //Assign my IP adress
 unsigned int localPort = 5000;                            //Assign a Port to talk over
-char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
+char packetBuffer[1024];                                  //Increase if strings are cut off
 String datReq;                                            //String for data
 int packetSize;                                           //Size of Packet
 EthernetUDP Udp;                                          //Define UDP Object
@@ -44,27 +44,26 @@ void setup() {
   Udp.begin(localPort);         //Initialize Udp
   delay(1500);                  //delay
 
-  lcd.begin(16, 2);
-  lcd.print("Waiting for connection");
+//  lcd.begin(16, 2);
+//  lcd.print("Waiting for connection");
 }
 
 void loop() {
   packetSize = Udp.parsePacket();     //Read the packetSize
 
   if (packetSize > 0) {               //Check to see if a request is present
-    Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);     //Reading the data request on the Udp
+    Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
     String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
 
     //break string into actuall values
-    int Motor1Power = getValue(datReq, ',', 0).toInt();       //Heave
-    int Motor2Power = getValue(datReq, ',', 0).toInt();       //Heave
-    int Motor3Power = getValue(datReq, ',', 0).toInt();       //Heave
-    int Motor4Power = getValue(datReq, ',', 0).toInt();       //Heave
-    int Motor5Power = getValue(datReq, ',', 0).toInt();       //Heave
-    int Motor6Power = getValue(datReq, ',', 0).toInt();       //Heave
-    
-    lcd.clear();
-    lcd.print(Motor1Power);
+    int Motor1Power = getValue(datReq, ',', 0).toInt();       //Front Left
+    int Motor2Power = getValue(datReq, ',', 1).toInt();       //Front Right
+    int Motor3Power = getValue(datReq, ',', 2).toInt();       //Rear Left
+    int Motor4Power = getValue(datReq, ',', 3).toInt();       //Rear Right
+    int Motor5Power = getValue(datReq, ',', 4).toInt();       //Left Vertical
+    int Motor6Power = getValue(datReq, ',', 5).toInt();       //Right Vertical
+
+  Serial.println(datReq);
 
     runMotor(Motor1Power, Motor1Pin1, Motor1Pin2, Motor1Enable);
     runMotor(Motor2Power, Motor2Pin1, Motor2Pin2, Motor2Enable);
@@ -73,7 +72,7 @@ void loop() {
     runMotor(Motor5Power, Motor5Pin1, Motor5Pin2, Motor5Enable);
     runMotor(Motor6Power, Motor6Pin1, Motor6Pin2, Motor6Enable);
   }
-  memset(packetBuffer, 0, UDP_TX_PACKET_MAX_SIZE);
+  memset(packetBuffer, 0, 1024);
 }
 
 /*
@@ -100,6 +99,7 @@ void runMotor(int power, int pin1, int pin2, int enablePin) {
  * Method that parses a string at a specific index of a charecter
  * Don't change or touch at all, won't change how the robot drives.
  * Seriously, editing this will break the program
+ * JUST
  */
 String getValue(String data, char separator, int index) {
   int found = 0;
