@@ -79,6 +79,7 @@ while done==False:
         for i in range( axes ):
             axis = joystick.get_axis( i )
             textPrint.print(screen, "Axis {} value: {:>6.3f}".format(i, axis) )
+            textPrint.print(screen, "Button 1")
         textPrint.unindent()
 
     # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT

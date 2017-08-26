@@ -9,6 +9,5 @@ joystick.init()
 
 while True:
     pygame.event.get()
-    axis = joystick.get_axis(0)
-    print(int(axis*255))
+    print(joystick.get_button(2))
     time.sleep(.1)

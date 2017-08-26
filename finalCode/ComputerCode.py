@@ -8,9 +8,10 @@ import time
 pygame.init()
 pygame.joystick.init()
 
-joystick = pygame.joystick.Joystick(0)
-joystick.init()
+joystick0 = pygame.joystick.Joystick(0)
+joystick0.init()
 
+brightnessScaleFactor = 10                  #controlls how much brightness changes
 
 host = '172.16.0.4'  # My IP.  Will need to be changed most times the code is run
 port = 12345       # the port to use
@@ -25,37 +26,55 @@ s.bind((host, port))
 
 #This is a comment
 while True:
+    brightness = 0
     print("waiting for connection")                 #wait for connection
     endLoop = False
     s.listen(5)
     c, addr = s.accept()
     print('Got connection from', addr)
+    print("Make sure to stop the program on the robot before the computer")
 
     while (endLoop == False):                       #send values
         pygame.event.get()
 
-        #read values
-        Xaxis = int(joystick.get_axis(1)*-255)
+        #read values from joystick
+        Xaxis = int(joystick0.get_axis(1) * -255)
         if Xaxis == -254:
             Xaxis = -255
 
-        Yaxis = int(joystick.get_axis(0)*-255)
+        Yaxis = int(joystick0.get_axis(0) * -255)
         if Yaxis == -254:
             Yaxis = -255
 
-        Zaxis = int(joystick.get_axis(2)*-255)
+        Zaxis = int(joystick0.get_axis(2) * -255)
         if Zaxis == -254:
             Zaxis = -255
 
-        Taxis = int(joystick.get_axis(3)*-255)
+        Taxis = int(joystick0.get_axis(3) * -255)
         if Taxis == -254:
             Taxis = -255
 
-        final = str(Xaxis) + "," + str(Yaxis) + "," + str(Zaxis) + "," + str(Taxis)
+
+        #Lights Controll
+        if joystick0.get_button(2) == 1:                         #Lights dimmer
+            brightness -= brightnessScaleFactor
+        elif joystick0.get_button(4) == 1:                       #lights brighter
+            brightness += brightnessScaleFactor
+
+        if brightness > 255:
+            brightness = 255
+        elif brightness < 0:
+            brightness = 0
+
+
+        #Send data to rPI
+        final = str(Xaxis) + "," + str(Yaxis) + "," + str(Zaxis) + "," + str(Taxis) + "," + str(brightness)
         try:
             c.send(bytes(final, 'UTF-8'))
         except (ConnectionResetError, BrokenPipeError):
-            print("connection terminated")
+            print("closing connection")
+            time.sleep(.5)                      #pause to seem like the program is doing stuff
+            print("Safe to stop program")
             endLoop = True
         time.sleep(.1)
 c.close()

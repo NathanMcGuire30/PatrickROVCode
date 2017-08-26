@@ -25,6 +25,7 @@ while True:
     sway = float(inValuesString.split(",")[1])                        #Left-right
     yaw = float(inValuesString.split(",")[2])                         #turning
     heave = float(inValuesString.split(",")[3])                       #Up-down
+    brightness = float(inValuesString.split(",")[4])                       #Light brightness
 
     #Strafe code
     angle = math.atan2(surge, sway)
@@ -63,7 +64,7 @@ while True:
     leftVerticalPower = int(heave)
     rightVerticalPower = int(heave)
 
-    fullData = str(int(frontLeftPower)) + "," + str(int(frontRightPower)) + "," + str(int(rearLeftPower)) + "," + str(int(rearRightPower)) + "," + str(leftVerticalPower) + "," + str(rightVerticalPower) + ",0"
+    fullData = str(int(frontLeftPower)) + "," + str(int(frontRightPower)) + "," + str(int(rearLeftPower)) + "," + str(int(rearRightPower)) + "," + str(leftVerticalPower) + "," + str(rightVerticalPower) + "," + str(int(brightness)) + ",;"
 
     print(fullData)
 

@@ -1,9 +1,6 @@
 #include <Ethernet.h>
 #include <EthernetUdp.h>
 #include <SPI.h>
-#include <LiquidCrystal.h>
-
-//LiquidCrystal lcd(22, 6, 5, 4, 3, 2);
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE};       //Assign a mac address
 IPAddress ip(172, 16, 0, 3);                              //Assign my IP adress
@@ -38,14 +35,17 @@ int Motor6Pin1 = 34;              //Green
 int Motor6Pin2 = 35;
 int Motor6Enable = 46;
 
+//Other pins
+int lightPin = 6;
+
+
 void setup() {
   Serial.begin(9600);           //Turn on Serial Port
   Ethernet.begin(mac, ip);      //Initialize Ethernet
   Udp.begin(localPort);         //Initialize Udp
-  delay(1500);                  //delay
+  delay(1500);                  //Pause for effect
 
-//  lcd.begin(16, 2);
-//  lcd.print("Waiting for connection");
+  pinMode(lightPin, OUTPUT);
 }
 
 void loop() {
@@ -62,8 +62,10 @@ void loop() {
     int Motor4Power = getValue(datReq, ',', 3).toInt();       //Rear Right
     int Motor5Power = getValue(datReq, ',', 4).toInt();       //Left Vertical
     int Motor6Power = getValue(datReq, ',', 5).toInt();       //Right Vertical
+    int brightness = getValue(datReq, ',', 6).toInt();        //Light
+    
 
-  Serial.println(datReq);
+    //Serial.println(datReq);
 
     runMotor(Motor1Power, Motor1Pin1, Motor1Pin2, Motor1Enable);
     runMotor(Motor2Power, Motor2Pin1, Motor2Pin2, Motor2Enable);
@@ -71,6 +73,7 @@ void loop() {
     runMotor(Motor4Power, Motor4Pin1, Motor4Pin2, Motor4Enable);
     runMotor(Motor5Power, Motor5Pin1, Motor5Pin2, Motor5Enable);
     runMotor(Motor6Power, Motor6Pin1, Motor6Pin2, Motor6Enable);
+    analogWrite(lightPin, brightness);
   }
   memset(packetBuffer, 0, 1024);
 }
@@ -99,7 +102,9 @@ void runMotor(int power, int pin1, int pin2, int enablePin) {
  * Method that parses a string at a specific index of a charecter
  * Don't change or touch at all, won't change how the robot drives.
  * Seriously, editing this will break the program
- * JUST
+ * JUST DON'T TOUCH THIS.  OK?
+ * 
+ * Disclaimer: I did not write this, I coppied it off the internet, and it works for now
  */
 String getValue(String data, char separator, int index) {
   int found = 0;
