@@ -1,9 +1,6 @@
 from socket import *
 import math
 
-#test comment
-#test comment 2
-
 computerSocket = socket()
 computerAddress = '172.16.0.4' # ip laptop
 computerPort = 12345
@@ -25,7 +22,7 @@ while True:
     sway = float(inValuesString.split(",")[1])                        #Left-right
     yaw = float(inValuesString.split(",")[2])                         #turning
     heave = float(inValuesString.split(",")[3])                       #Up-down
-    brightness = float(inValuesString.split(",")[4])                       #Light brightness
+    brightness = float(inValuesString.split(",")[4])                  #Light brightness
 
     #Strafe code
     angle = math.atan2(surge, sway)
@@ -48,23 +45,27 @@ while True:
         scaledPower = 0
 
     frontLeftPower = int(scaledPower * math.cos(math.radians(angle)))
-    rearRightPower = int(scaledPower * math.sin(math.radians(angle)))
-    rearLeftPower = frontLeftPower * -1
-    frontRightPower = rearRightPower * -1
+    frontRightPower = int(scaledPower * math.sin(math.radians(angle)))
+    rearLeftPower = frontRightPower * -1
+    rearRightPower = frontLeftPower * -1
+
+    #INVERT
+    frontRightPower *= -1
+    rearRightPower *= -1
 
     #Steering code
-    yaw *= .5                       #Steering scaling value.  Bigger = harder steering max is 1, min is 0 but less than .1 does not do anything
+    yaw *= -.5                       #Steering scaling value.  Bigger = harder steering max is -1, effective min is -0.1
 
     frontLeftPower += yaw
     frontRightPower -= yaw
-    rearLeftPower -= yaw
-    rearRightPower += yaw
+    rearLeftPower += yaw
+    rearRightPower -= yaw
 
     #Vertical code
     leftVerticalPower = int(heave)
     rightVerticalPower = int(heave)
 
-    fullData = str(int(frontLeftPower)) + "," + str(int(frontRightPower)) + "," + str(int(rearLeftPower)) + "," + str(int(rearRightPower)) + "," + str(leftVerticalPower) + "," + str(rightVerticalPower) + "," + str(int(brightness)) + ",;"
+    fullData = str(int(frontRightPower)) + "," + str(int(rearRightPower)) + "," + str(int(frontLeftPower)) + "," + str(int(rearLeftPower)) + "," + str(leftVerticalPower) + "," + str(rightVerticalPower) + "," + str(int(brightness)) + ",;"
 
     print(fullData)
 

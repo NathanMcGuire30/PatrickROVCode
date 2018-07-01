@@ -11,13 +11,12 @@ pygame.joystick.init()
 joystick0 = pygame.joystick.Joystick(0)
 joystick0.init()
 
-brightnessScaleFactor = 10                  #controlls how much brightness changes
-
 host = '172.16.0.4'  # My IP.  Will need to be changed most times the code is run
 port = 12345       # the port to use
 # IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRETLY AND YOU WILL HAVE
 #TO CHANGE THE PORT.
 
+toggle1 = 1
 i = 0
 endLoop = False
 
@@ -33,6 +32,7 @@ while True:
     c, addr = s.accept()
     print('Got connection from', addr)
     print("Make sure to stop the program on the robot before the computer")
+    print("\n")
 
     while (endLoop == False):                       #send values
         pygame.event.get()
@@ -55,16 +55,27 @@ while True:
             Taxis = -255
 
 
+
         #Lights Controll
+        brightnessScaleFactor = 10 ** (len(str(brightness))-1)
         if joystick0.get_button(2) == 1:                         #Lights dimmer
             brightness -= brightnessScaleFactor
         elif joystick0.get_button(4) == 1:                       #lights brighter
             brightness += brightnessScaleFactor
 
+        if joystick0.get_button(0) == 1:
+            if toggle1 == 1:
+                brightness = 255
+            else:
+                brightness = 0
+            toggle1 *= -1
+            time.sleep(.2)
+
         if brightness > 255:
             brightness = 255
         elif brightness < 0:
             brightness = 0
+
 
 
         #Send data to rPI
@@ -75,6 +86,7 @@ while True:
             print("closing connection")
             time.sleep(.5)                      #pause to seem like the program is doing stuff
             print("Safe to stop program")
+            print("\n \n")
             endLoop = True
         time.sleep(.1)
 c.close()

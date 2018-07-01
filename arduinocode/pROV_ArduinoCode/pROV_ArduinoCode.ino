@@ -11,27 +11,27 @@ int packetSize;                                           //Size of Packet
 EthernetUDP Udp;                                          //Define UDP Object
 
 //Motor ports
-int Motor1Pin1 = 30;              //Yellow
+int Motor1Pin1 = 30;
 int Motor1Pin2 = 31;
 int Motor1Enable = 44;
 
-int Motor2Pin1 = 33;              //Blue
-int Motor2Pin2 = 32;
-int Motor2Enable = 45;
+int Motor5Pin1 = 33;              
+int Motor5Pin2 = 32;
+int Motor5Enable = 45;
 
-int Motor3Pin1 = 36;              //White
+int Motor3Pin1 = 36;              
 int Motor3Pin2 = 37;
 int Motor3Enable = 7;
 
-int Motor4Pin1 = 40;              //Orange
+int Motor4Pin1 = 40;              
 int Motor4Pin2 = 41;
 int Motor4Enable = 9;
 
-int Motor5Pin1 = 39;              //Brown
-int Motor5Pin2 = 38;
-int Motor5Enable = 8;
+int Motor2Pin1 = 39;              
+int Motor2Pin2 = 38;
+int Motor2Enable = 8;
 
-int Motor6Pin1 = 34;              //Green
+int Motor6Pin1 = 34;              
 int Motor6Pin2 = 35;
 int Motor6Enable = 46;
 
@@ -56,12 +56,12 @@ void loop() {
     String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
 
     //break string into actuall values
-    int Motor1Power = getValue(datReq, ',', 0).toInt();       //Front Left
-    int Motor2Power = getValue(datReq, ',', 1).toInt();       //Front Right
-    int Motor3Power = getValue(datReq, ',', 2).toInt();       //Rear Left
-    int Motor4Power = getValue(datReq, ',', 3).toInt();       //Rear Right
-    int Motor5Power = getValue(datReq, ',', 4).toInt();       //Left Vertical
-    int Motor6Power = getValue(datReq, ',', 5).toInt();       //Right Vertical
+    int Motor1Power = getValue(datReq, ',', 0).toInt();       
+    int Motor2Power = getValue(datReq, ',', 1).toInt();      
+    int Motor3Power = getValue(datReq, ',', 2).toInt();       
+    int Motor4Power = getValue(datReq, ',', 3).toInt();      
+    int Motor5Power = getValue(datReq, ',', 4).toInt();       
+    int Motor6Power = getValue(datReq, ',', 5).toInt();       
     int brightness = getValue(datReq, ',', 6).toInt();        //Light
     
 
