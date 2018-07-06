@@ -65,7 +65,6 @@ void loop() {
     int brightness = getValue(datReq, ',', 6).toInt();        //Light
     
 
-    //Serial.println(datReq);
 
     runMotor(Motor1Power, Motor1Pin1, Motor1Pin2, Motor1Enable);
     runMotor(Motor2Power, Motor2Pin1, Motor2Pin2, Motor2Enable);
@@ -74,6 +73,11 @@ void loop() {
     runMotor(Motor5Power, Motor5Pin1, Motor5Pin2, Motor5Enable);
     runMotor(Motor6Power, Motor6Pin1, Motor6Pin2, Motor6Enable);
     analogWrite(lightPin, brightness);
+
+    
+    Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+    Udp.write("reply");
+    Udp.endPacket(); 
   }
   memset(packetBuffer, 0, 1024);
 }
