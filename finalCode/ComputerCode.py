@@ -23,7 +23,6 @@ endLoop = False
 s = socket.socket()
 s.bind((host, port))
 
-#This is a comment
 while True:
     brightness = 0
     print("waiting for connection")                 #wait for connection
@@ -36,8 +35,6 @@ while True:
 
     while (endLoop == False):                       #send values
         pygame.event.get()
-        inbytes = computerSocket.recv(1024)
-        print(inbytes)
 
         #read values from joystick
         Xaxis = int(joystick0.get_axis(1) * -255)
@@ -90,6 +87,14 @@ while True:
             print("Safe to stop program")
             print("\n \n")
             endLoop = True
+
+        #Recieve data from rPI
+        inbytes = computerSocket.recv(1024)
+        text = str(inbytes)
+        text = text.split("'")
+        inValuesString = text[1]
+
+        print(inValuesString)
 
         time.sleep(.1)
 computerSocket.close()

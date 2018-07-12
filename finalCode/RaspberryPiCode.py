@@ -8,9 +8,6 @@ computerSocket.connect((computerAddress, computerPort))
 
 arduinoAddress = ('172.16.0.3', 5000)
 arduinoSocket = socket(AF_INET, SOCK_DGRAM)
-#arduinoSocket.settimeout(1) #only wait 1 second for a resonse
-
-computerSocket.send(bytes("hi", 'UTF-8'))
 
 while True:
     #read bytes and turn them into a meaningful string
@@ -76,6 +73,10 @@ while True:
     #wait for response from arduino
     fromArduino = (arduinoSocket.recv(1024))
 
-    computerSocket.send(bytes(str(fromArduino), 'UTF-8'))
+    text = str(inbytes)
+    text = text.split("'")
+    inValuesString = text[1]
+
+    computerSocket.send(bytes(str(inValuesString), 'UTF-8'))
 computerSocket.close()
 arduinoSocket.close()
