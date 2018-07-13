@@ -54,6 +54,7 @@ void loop() {
   while(Udp.parsePacket() == 0) {
     i++;
   }
+  
   Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
   String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
 
