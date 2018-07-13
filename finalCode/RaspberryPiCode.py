@@ -73,10 +73,12 @@ while True:
     #wait for response from arduino
     fromArduino = (arduinoSocket.recv(1024))
 
+    #Split out message from arduino
     text = str(inbytes)
     text = text.split("'")
     inValuesString = text[1]
 
+    #send stuff to computer
     computerSocket.send(bytes(str(inValuesString), 'UTF-8'))
 computerSocket.close()
 arduinoSocket.close()
