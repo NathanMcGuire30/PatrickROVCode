@@ -73,9 +73,6 @@ while True:
     #wait for response from arduino
     fromArduino = (arduinoSocket.recv(1024))
 
-
-
-
     #Split out message from arduino
     text = str(fromArduino)
     text = text.split("'")
