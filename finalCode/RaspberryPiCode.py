@@ -73,7 +73,7 @@ while True:
     #wait for response from arduino
     fromArduino = (arduinoSocket.recv(1024))
 
-    text = str(inbytes)
+    text = str(fromArduino)
     text = text.split("'")
     inValuesString = text[1]
 
