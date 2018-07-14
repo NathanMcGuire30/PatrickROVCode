@@ -2,7 +2,7 @@ from socket import *
 import math
 
 computerSocket = socket()
-computerAddress = '172.16.0.2' # ip laptop
+computerAddress = '172.16.0.5' # ip laptop
 computerPort = 12346
 computerSocket.connect((computerAddress, computerPort))
 
@@ -74,7 +74,7 @@ while True:
     fromArduino = (arduinoSocket.recv(1024))
 
     #Split out message from arduino
-    text = str(inbytes)
+    text = str(fromArduino)
     text = text.split("'")
     inValuesString = text[1]
 
