@@ -83,13 +83,18 @@ while True:
             computerSocket.send(bytes(final, 'UTF-8'))
         except (ConnectionResetError, BrokenPipeError):
             print("closing connection")
+            computerSocket.close()
             time.sleep(.5)                      #pause to seem like the program is doing stuff
             print("Safe to stop program")
-            print("\n \n")
             endLoop = True
 
         #Recieve data from rPI
-        inbytes = computerSocket.recv(1024)
+        try:
+            inbytes = computerSocket.recv(1024)
+        except(ConnectionResetError, BrokenPipeError, OSError):              #if we no longer have comms, set values to zero
+            inbytes = ("b'no return signal'")
+            print("\n \n")
+
         text = str(inbytes)
         text = text.split("'")
         inValuesString = text[1]
@@ -97,4 +102,3 @@ while True:
         print(inValuesString)
 
         time.sleep(.1)
-computerSocket.close()
