@@ -2,7 +2,7 @@ from socket import *
 import math
 
 computerSocket = socket()
-computerAddress = '172.16.0.2' # ip laptop
+computerAddress = '172.16.0.5' # ip laptop
 computerPort = 12346
 computerSocket.connect((computerAddress, computerPort))
 
@@ -32,7 +32,7 @@ while True:
     if surge == 0 and sway == 0:                                 #Fix values for when joystick is centered
         angle = 0.0
 
-    absolutePower = math.sqrt(surge * surge + sway * sway)
+    absolutePower = math.sqrt(surge * surge + sway * sway)       #Some scaling to make it easier to control from a square profile joystick (needs work eventually)
     if absolutePower != 0:
         if abs(surge) > abs(sway):
           maxPowerScaleFactor = 255/surge
@@ -53,7 +53,7 @@ while True:
     rearRightPower *= -1
 
     #Steering code
-    yaw *= -.5                       #Steering scaling value.  Bigger = harder steering max is -1, effective min is -0.1
+    yaw *= -.5                       #Steering scaling value.  More negative = harder steering.  Max is -1, effective min is -0.1
 
     frontLeftPower += yaw
     frontRightPower -= yaw
@@ -73,10 +73,12 @@ while True:
     #wait for response from arduino
     fromArduino = (arduinoSocket.recv(1024))
 
+    #Split out message from arduino
     text = str(fromArduino)
     text = text.split("'")
     inValuesString = text[1]
 
+    #send stuff to computer
     computerSocket.send(bytes(str(inValuesString), 'UTF-8'))
 computerSocket.close()
 arduinoSocket.close()
