@@ -2,15 +2,12 @@ from socket import *
 import math
 
 computerSocket = socket()
-computerAddress = '172.16.0.2' # ip laptop
+computerAddress = '172.16.0.5' # ip laptop
 computerPort = 12346
 computerSocket.connect((computerAddress, computerPort))
 
 arduinoAddress = ('172.16.0.3', 5000)
 arduinoSocket = socket(AF_INET, SOCK_DGRAM)
-#arduinoSocket.settimeout(1) #only wait 1 second for a resonse
-
-computerSocket.send(bytes("hi", 'UTF-8'))
 
 while True:
     #read bytes and turn them into a meaningful string
@@ -76,6 +73,12 @@ while True:
     #wait for response from arduino
     fromArduino = (arduinoSocket.recv(1024))
 
-    computerSocket.send(bytes(str(fromArduino), 'UTF-8'))
+    #Split out message from arduino
+    text = str(fromArduino)
+    text = text.split("'")
+    inValuesString = text[1]
+
+    #send stuff to computer
+    computerSocket.send(bytes(str(inValuesString), 'UTF-8'))
 computerSocket.close()
 arduinoSocket.close()
