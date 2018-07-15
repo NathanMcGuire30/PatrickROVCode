@@ -11,7 +11,7 @@ pygame.joystick.init()
 joystick0 = pygame.joystick.Joystick(0)
 joystick0.init()
 
-host = '172.16.0.5'  # My IP.  Will need to be changed most times the code is run
+host = '172.16.0.2'  # My IP.  Will need to be changed most times the code is run
 port = 12346       # the port to use
 # IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRETLY AND YOU WILL HAVE
 #TO CHANGE THE PORT.
@@ -25,7 +25,7 @@ s.bind((host, port))
 
 while True:
     brightness = 0
-    print("waiting for connection")                 #wait for connection
+    print("waiting for connection\nSafe to stop program")                 #wait for connection
     endLoop = False
     s.listen(5)
     computerSocket, addr = s.accept()
@@ -85,7 +85,6 @@ while True:
             print("closing connection")
             computerSocket.close()
             time.sleep(.5)                      #pause to seem like the program is doing stuff
-            print("Safe to stop program")
             endLoop = True
 
         #Recieve data from rPI

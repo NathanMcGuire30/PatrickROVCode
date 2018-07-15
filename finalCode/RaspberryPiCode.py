@@ -5,7 +5,7 @@ from socket import *
 import math
 
 computerSocket = socket()
-computerAddress = '172.16.0.5' # ip laptop
+computerAddress = '172.16.0.2' # ip laptop
 computerPort = 12346
 computerSocket.connect((computerAddress, computerPort))
 
