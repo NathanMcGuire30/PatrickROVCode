@@ -35,6 +35,7 @@ int Motor6Pin1 = 34;
 int Motor6Pin2 = 35;
 int Motor6Enable = 46;
 
+int i=0;
 //Other pins
 int lightPin = 6;
 
@@ -49,37 +50,37 @@ void setup() {
 }
 
 void loop() {
-  packetSize = Udp.parsePacket();     //Read the packetSize
-
-  if (packetSize > 0) {               //Check to see if a request is present
-    Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
-    String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
-
-    //break string into actuall values
-    int Motor1Power = getValue(datReq, ',', 0).toInt();       
-    int Motor2Power = getValue(datReq, ',', 1).toInt();      
-    int Motor3Power = getValue(datReq, ',', 2).toInt();       
-    int Motor4Power = getValue(datReq, ',', 3).toInt();      
-    int Motor5Power = getValue(datReq, ',', 4).toInt();       
-    int Motor6Power = getValue(datReq, ',', 5).toInt();       
-    int brightness = getValue(datReq, ',', 6).toInt();        //Light
-    
-
-
-    runMotor(Motor1Power, Motor1Pin1, Motor1Pin2, Motor1Enable);
-    runMotor(Motor2Power, Motor2Pin1, Motor2Pin2, Motor2Enable);
-    runMotor(Motor3Power, Motor3Pin1, Motor3Pin2, Motor3Enable);
-    runMotor(Motor4Power, Motor4Pin1, Motor4Pin2, Motor4Enable);
-    runMotor(Motor5Power, Motor5Pin1, Motor5Pin2, Motor5Enable);
-    runMotor(Motor6Power, Motor6Pin1, Motor6Pin2, Motor6Enable);
-    analogWrite(lightPin, brightness);
-
-    
-    Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-    Udp.write("reply");
-    Udp.endPacket(); 
+  i=0;
+  while(Udp.parsePacket() == 0) {
+    //Feedback controll goes here
+    i++;
   }
-  memset(packetBuffer, 0, 1024);
+  
+  Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
+  String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
+
+  //break string into actuall values
+  int Motor1Power = getValue(datReq, ',', 0).toInt();       
+  int Motor2Power = getValue(datReq, ',', 1).toInt();      
+  int Motor3Power = getValue(datReq, ',', 2).toInt();       
+  int Motor4Power = getValue(datReq, ',', 3).toInt();      
+  int Motor5Power = getValue(datReq, ',', 4).toInt();       
+  int Motor6Power = getValue(datReq, ',', 5).toInt();       
+  int brightness = getValue(datReq, ',', 6).toInt();        //Light
+  
+
+
+  runMotor(Motor1Power, Motor1Pin1, Motor1Pin2, Motor1Enable);
+  runMotor(Motor2Power, Motor2Pin1, Motor2Pin2, Motor2Enable);
+  runMotor(Motor3Power, Motor3Pin1, Motor3Pin2, Motor3Enable);
+  runMotor(Motor4Power, Motor4Pin1, Motor4Pin2, Motor4Enable);
+  runMotor(Motor5Power, Motor5Pin1, Motor5Pin2, Motor5Enable);
+  runMotor(Motor6Power, Motor6Pin1, Motor6Pin2, Motor6Enable);
+  analogWrite(lightPin, brightness);
+
+  Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+  Udp.print(i);
+  Udp.endPacket();   memset(packetBuffer, 0, 1024);
 }
 
 /*
