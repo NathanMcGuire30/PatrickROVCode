@@ -52,6 +52,7 @@ void setup() {
 void loop() {
   i=0;
   while(Udp.parsePacket() == 0) {
+    //Feedback controll goes here
     i++;
   }
   
@@ -77,9 +78,8 @@ void loop() {
   runMotor(Motor6Power, Motor6Pin1, Motor6Pin2, Motor6Enable);
   analogWrite(lightPin, brightness);
 
-  
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-  Udp.write(i);
+  Udp.print(i);
   Udp.endPacket();   memset(packetBuffer, 0, 1024);
 }
 
