@@ -62,7 +62,7 @@ while True:
     frontRightPower -= yaw
     rearLeftPower += yaw
     rearRightPower -= yaw
-
+    
     #Vertical code
     leftVerticalPower = int(heave)
     rightVerticalPower = int(heave)

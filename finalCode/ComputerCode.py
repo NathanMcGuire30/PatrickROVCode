@@ -30,8 +30,7 @@ while True:
     s.listen(5)
     computerSocket, addr = s.accept()
     print('Got connection from', addr)
-    print("Make sure to stop the program on the robot before the computer")
-    print("\n")
+    print("Make sure to stop the program on the robot before the computer\n")
 
     while (endLoop == False):                       #send values
         pygame.event.get()
