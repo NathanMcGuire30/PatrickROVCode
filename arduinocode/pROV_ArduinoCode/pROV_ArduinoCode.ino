@@ -39,6 +39,8 @@ int i=0;
 //Other pins
 int lightPin = 6;
 
+int lastMsgTime = 0;
+
 
 void setup() {
   Serial.begin(9600);           //Turn on Serial Port
@@ -54,8 +56,12 @@ void loop() {
   while(Udp.parsePacket() == 0) {
     //Feedback controll goes here
     i++;
+    if (millis() - lastMsgTime >= 2000) {				//Its been a while since the last command
+
+    }
   }
-  
+
+  lastMsgTime = millis();			//Reset time of message
   Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
   String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
 
@@ -100,7 +106,14 @@ void runMotor(int power, int pin1, int pin2, int enablePin) {
   }
 }
 
-
+void stopMotors() {
+  runMotor(0, Motor1Pin1, Motor1Pin2, Motor1Enable);
+  runMotor(0, Motor2Pin1, Motor2Pin2, Motor2Enable);
+  runMotor(0, Motor3Pin1, Motor3Pin2, Motor3Enable);
+  runMotor(0, Motor4Pin1, Motor4Pin2, Motor4Enable);
+  runMotor(0, Motor5Pin1, Motor5Pin2, Motor5Enable);
+  runMotor(0, Motor6Pin1, Motor6Pin2, Motor6Enable);
+}
 
 
 /*
