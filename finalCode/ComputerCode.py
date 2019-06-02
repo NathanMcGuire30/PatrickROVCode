@@ -53,7 +53,6 @@ while True:
             Taxis = -255
 
 
-
         #Lights Controll
         brightnessScaleFactor = 10 ** (len(str(brightness))-1)
         if joystick0.get_button(2) == 1:                         #Lights dimmer

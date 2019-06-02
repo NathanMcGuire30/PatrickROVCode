@@ -27,13 +27,15 @@ while True:
     brightness = float(inValuesString.split(",")[4])                  #Light brightness
 
     #Strafe code
-    angle = math.atan2(surge, sway)
+    angle = math.atan2(sway, surge)								 #convert to polar
     angle = angle/math.pi * 180                                  #convert to degrees
-    angle -= 135                                                 #rotate cordinates
+    #angle -= 135                                                 #rotate cordinates
     if angle < 0:                                                #get rid of negative angles
         angle += 360
     if surge == 0 and sway == 0:                                 #Fix values for when joystick is centered
         angle = 0.0
+
+    #print(angle)
 
     absolutePower = math.sqrt(surge * surge + sway * sway)       #Some scaling to make it easier to control from a square profile joystick (needs work eventually)
     if absolutePower != 0:
@@ -46,14 +48,21 @@ while True:
     else:
         scaledPower = 0
 
-    frontLeftPower = int(scaledPower * math.cos(math.radians(angle)))
-    frontRightPower = int(scaledPower * math.sin(math.radians(angle)))
-    rearLeftPower = frontRightPower * -1
-    rearRightPower = frontLeftPower * -1
+    if sway >=0 and surge >= 0:
+    	frontRightPower = scaledPower
+    	frontLeftPower = int(scaledPower * math.cos(math.radians(2*angle)))
+    elif sway < 0 and surge >= 0:
+    	frontRightPower = int(scaledPower * math.cos(math.radians(2*angle)))
+    	frontLeftPower = scaledPower
+    elif sway < 0 and surge < 0:
+    	frontRightPower = -scaledPower
+    	frontLeftPower = int(-scaledPower * math.cos(math.radians(2*angle)))
+    elif sway >=0 and surge < 0:
+    	frontRightPower = int(-scaledPower * math.cos(math.radians(2*angle)))
+    	frontLeftPower = -scaledPower
 
-    #INVERT
-    frontRightPower *= -1
-    rearRightPower *= -1
+    rearRightPower = -frontLeftPower
+    rearLeftPower = -frontRightPower
 
     #Steering code
     yaw *= -.5                       #Steering scaling value.  More negative = harder steering.  Max is -1, effective min is -0.1
