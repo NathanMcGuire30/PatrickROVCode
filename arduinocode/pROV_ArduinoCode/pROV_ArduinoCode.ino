@@ -11,33 +11,33 @@ int packetSize;                                           //Size of Packet
 EthernetUDP Udp;                                          //Define UDP Object
 
 //Motor ports
-int Motor1Pin1 = 30;
-int Motor1Pin2 = 31;
+int Motor1Pin1 = 40;
+int Motor1Pin2 = 42;
 int Motor1Enable = 44;
 
-int Motor5Pin1 = 33;              
-int Motor5Pin2 = 32;
-int Motor5Enable = 45;
+int Motor2Pin1 = 41;              
+int Motor2Pin2 = 43;
+int Motor2Enable = 45;
 
-int Motor3Pin1 = 36;              
-int Motor3Pin2 = 37;
+int Motor3Pin1 = 34;              
+int Motor3Pin2 = 36;
 int Motor3Enable = 7;
 
-int Motor4Pin1 = 40;              
-int Motor4Pin2 = 41;
-int Motor4Enable = 9;
+int Motor4Pin1 = 35;              
+int Motor4Pin2 = 37;
+int Motor4Enable = 6;
 
-int Motor2Pin1 = 39;              
-int Motor2Pin2 = 38;
-int Motor2Enable = 8;
+int Motor5Pin1 = 36;              
+int Motor5Pin2 = 38;
+int Motor5Enable = 9;
 
-int Motor6Pin1 = 34;              
-int Motor6Pin2 = 35;
-int Motor6Enable = 46;
+int Motor6Pin1 = 37;              
+int Motor6Pin2 = 39;
+int Motor6Enable = 8;
 
 int i=0;
 //Other pins
-int lightPin = 6;
+int lightPin = 46;
 
 
 void setup() {
