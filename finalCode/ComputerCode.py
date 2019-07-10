@@ -96,4 +96,4 @@ while True:
 
         print(inValuesString)
 
-        time.sleep(.1)
+        time.sleep(.05)
