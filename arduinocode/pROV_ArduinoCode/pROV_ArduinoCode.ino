@@ -36,6 +36,7 @@ int Motor6Pin2 = 35;
 int Motor6Enable = 46;
 
 int i=0;
+int loopTime = 0;
 //Other pins
 int lightPin = 6;
 
@@ -53,14 +54,16 @@ void setup() {
 
 void loop() {
   i=0;
+  
   while(Udp.parsePacket() == 0) {
     //Feedback controll goes here
     i++;
-    if (millis() - lastMsgTime >= 2000) {				//Its been a while since the last command
-
+    loopTime = millis() - lastMsgTime;
+    if (loopTime >= 2000) {				//Its been a while since the last command
+      stopMotors();
     }
   }
-
+  
   lastMsgTime = millis();			//Reset time of message
   Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
   String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
@@ -85,7 +88,7 @@ void loop() {
   analogWrite(lightPin, brightness);
 
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-  Udp.print(i);
+  Udp.print(loopTime);
   Udp.endPacket();   memset(packetBuffer, 0, 1024);
 }
 
