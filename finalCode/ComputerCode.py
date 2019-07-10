@@ -13,8 +13,8 @@ joystick0.init()
 
 host = '172.16.0.2'  # My IP.  Will need to be changed most times the code is run
 port = 12346       # the port to use
-# IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRETLY AND YOU WILL HAVE
-#TO CHANGE THE PORT.
+# IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRECTLY AND YOU WILL HAVE
+# TO CHANGE THE PORT.
 
 toggle1 = 1
 i = 0
@@ -35,7 +35,7 @@ while True:
     while (endLoop == False):                       #send values
         pygame.event.get()
 
-        #read values from joystick
+        # read values from joystick
         Xaxis = int(joystick0.get_axis(1) * -255)
         if Xaxis == -254:
             Xaxis = -255
@@ -53,8 +53,7 @@ while True:
             Taxis = -255
 
 
-
-        #Lights Controll
+        # Lights Controll
         brightnessScaleFactor = 10 ** (len(str(brightness))-1)
         if joystick0.get_button(2) == 1:                         #Lights dimmer
             brightness -= brightnessScaleFactor
@@ -74,22 +73,20 @@ while True:
         elif brightness < 0:
             brightness = 0
 
-
-
-        #Send data to rPI
+        # Send data to rPI
         final = str(Xaxis) + "," + str(Yaxis) + "," + str(Zaxis) + "," + str(Taxis) + "," + str(brightness)
         try:
             computerSocket.send(bytes(final, 'UTF-8'))
         except (ConnectionResetError, BrokenPipeError):
             print("closing connection")
             computerSocket.close()
-            time.sleep(.5)                      #pause to seem like the program is doing stuff
+            time.sleep(.5)                      # pause to seem like the program is doing stuff
             endLoop = True
 
-        #Recieve data from rPI
+        # Receive data from rPI
         try:
             inbytes = computerSocket.recv(1024)
-        except(ConnectionResetError, BrokenPipeError, OSError):              #if we no longer have comms, set values to zero
+        except(ConnectionResetError, BrokenPipeError, OSError):              # if we no longer have comms, set values to zero
             inbytes = ("b'no return signal'")
             print("\n \n")
 
