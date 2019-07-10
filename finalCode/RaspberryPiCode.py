@@ -76,6 +76,11 @@ while True:
     leftVerticalPower = int(heave)
     rightVerticalPower = int(heave)
 
+    frontRightPower = 0
+    frontLeftPower = 0
+    rearRightPower = 0
+    #rearLeftPower = 0
+
     fullData = str(int(frontRightPower)) + "," + str(int(rearRightPower)) + "," + str(int(frontLeftPower)) + "," + str(int(rearLeftPower)) + "," + str(leftVerticalPower) + "," + str(rightVerticalPower) + "," + str(int(brightness)) + ",;"
 
     print(fullData)

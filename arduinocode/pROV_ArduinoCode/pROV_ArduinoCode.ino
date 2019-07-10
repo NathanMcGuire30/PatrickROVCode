@@ -23,8 +23,8 @@ int Motor3Pin1 = 34;
 int Motor3Pin2 = 36;
 int Motor3Enable = 7;
 
-int Motor4Pin1 = 35;              
-int Motor4Pin2 = 37;
+int Motor4Pin1 = 33;              
+int Motor4Pin2 = 35;
 int Motor4Enable = 6;
 
 int Motor5Pin1 = 36;              
@@ -38,6 +38,7 @@ int Motor6Enable = 8;
 int i=0;
 //Other pins
 int lightPin = 46;
+int battPin = 0;
 
 
 void setup() {
@@ -56,6 +57,10 @@ void loop() {
     //Feedback controll goes here
     i++;
   }
+
+  double battVoltage = analogRead(battPin);
+  battVoltage /= 204.6;
+  battVoltage *= 4.0;
   
   Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
   String datReq(packetBuffer);                        //Convert packetBuffer array to string datReq
@@ -80,7 +85,7 @@ void loop() {
   analogWrite(lightPin, brightness);
 
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-  Udp.print(i);
+  Udp.print(battVoltage);
   Udp.endPacket();   memset(packetBuffer, 0, 1024);
 }
 
