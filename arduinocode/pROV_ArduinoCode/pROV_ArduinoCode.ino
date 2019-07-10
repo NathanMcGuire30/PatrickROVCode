@@ -42,6 +42,7 @@ int lightPin = 46;
 
 void setup() {
   Serial.begin(9600);           //Turn on Serial Port
+  delay(1000);
   Ethernet.begin(mac, ip);      //Initialize Ethernet
   Udp.begin(localPort);         //Initialize Udp
   delay(1500);                  //Pause for effect
