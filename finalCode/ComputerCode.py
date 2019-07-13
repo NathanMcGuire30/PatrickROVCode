@@ -86,13 +86,15 @@ while True:
         # Receive data from rPI
         try:
             inbytes = computerSocket.recv(1024)
-        except(ConnectionResetError, BrokenPipeError, OSError):              # if we no longer have comms, set values to zero
+
+            inbytes = str(inbytes)
+            text = inbytes.split('"')
+            inValuesString = text[1].split("'")
+
+            battVoltage = inValuesString[1]
+        except(ConnectionResetError, BrokenPipeError, OSError, IndexError):              # if we no longer have comms, set values to zero
             inbytes = ("b'no return signal'")
             print("\n \n")
-
-        text = str(inbytes)
-        text = text.split("'")
-        inValuesString = text[1]
 
         print(inValuesString)
 

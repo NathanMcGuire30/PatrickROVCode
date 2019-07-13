@@ -19,8 +19,8 @@ int Motor2Pin1 = 41;
 int Motor2Pin2 = 43;
 int Motor2Enable = 45;
 
-int Motor3Pin1 = 34;              
-int Motor3Pin2 = 36;
+int Motor3Pin1 = 32;              
+int Motor3Pin2 = 34;
 int Motor3Enable = 7;
 
 int Motor4Pin1 = 33;              
@@ -42,6 +42,7 @@ int lightPin = 46;
 int battPin = 0;
 
 int lastMsgTime = 0;
+bool hasComms = false;
 
 
 void setup() {
@@ -52,18 +53,24 @@ void setup() {
   delay(1500);                  //Pause for effect
 
   pinMode(lightPin, OUTPUT);
+  blinkLights();
 }
 
 void loop() {
-  i=0;
-  
+  //Check for data  
   while(Udp.parsePacket() == 0) {
     //Feedback controll goes here
-    i++;
     loopTime = millis() - lastMsgTime;
+    delay(1);
     if (loopTime >= 2000) {				//Its been a while since the last command
       stopMotors();
+      hasComms = false;
     }
+  }
+
+  if(hasComms == false) {
+    blinkLights();
+    hasComms = true;
   }
 
   double battVoltage = analogRead(battPin);
@@ -83,8 +90,6 @@ void loop() {
   int Motor6Power = getValue(datReq, ',', 5).toInt();       
   int brightness = getValue(datReq, ',', 6).toInt();        //Light
   
-
-
   runMotor(Motor1Power, Motor1Pin1, Motor1Pin2, Motor1Enable);
   runMotor(Motor2Power, Motor2Pin1, Motor2Pin2, Motor2Enable);
   runMotor(Motor3Power, Motor3Pin1, Motor3Pin2, Motor3Enable);
@@ -94,8 +99,7 @@ void loop() {
   analogWrite(lightPin, brightness);
 
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-  Udp.print(battVoltage);
-  //TODO: RETURN MORE DATA
+  Udp.print(String(battVoltage) + "'" + String(loopTime));
   Udp.endPacket();   memset(packetBuffer, 0, 1024);
 }
 
@@ -123,6 +127,17 @@ void stopMotors() {
   runMotor(0, Motor4Pin1, Motor4Pin2, Motor4Enable);
   runMotor(0, Motor5Pin1, Motor5Pin2, Motor5Enable);
   runMotor(0, Motor6Pin1, Motor6Pin2, Motor6Enable);
+}
+
+
+//Blinks lights on startup
+void blinkLights() {
+  for(int i=0; i<5; i++){
+    digitalWrite(lightPin, HIGH);
+    delay(100);
+    digitalWrite(lightPin, LOW);
+    delay(100);
+  }
 }
 
 
