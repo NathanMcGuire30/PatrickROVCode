@@ -76,6 +76,8 @@ void loop() {
   double battVoltage = analogRead(battPin);
   battVoltage /= 204.6;
   battVoltage *= 4.0;
+
+  Serial.println(battVoltage);
   
   lastMsgTime = millis();			//Reset time of message
   Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp

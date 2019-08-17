@@ -1,38 +1,81 @@
 #!/usr/bin/env python3
-# Code to run on the RPi
+#Code to run on the computer
 
 from socket import *
+import pygame
+import time
 import math
 
+pygame.init()
+pygame.joystick.init()
 
-def clamp(value, minvalue, maxvalue):
-    return(min(max(value, minvalue), maxvalue))
+joystick0 = pygame.joystick.Joystick(0)
+joystick0.init()
+
+# IF YOU STOP THE COMPUTER CODE BEFORE YOU STOP THE PI CODE,THE PORT WON'T CLOSE CORRECTLY AND YOU WILL HAVE
+# TO CHANGE THE PORT.
+
+toggle1 = 1
+i = 0
+endLoop = False
+
+arduinoAddress = ('172.16.0.3', 5000)
+arduinoSocket = socket(AF_INET, SOCK_DGRAM)
+
+while True:
+    brightness = 0
+    print("waiting for connection\nSafe to stop program")                 #wait for connection
+    endLoop = False
+    print("Make sure to stop the program on the robot before the computer\n")
+
+    while (endLoop == False):                       #send values
+        pygame.event.get()
+
+        # read values from joystick
+        Xaxis = int(joystick0.get_axis(1) * -255)
+        if Xaxis == -254:
+            Xaxis = -255
+
+        Yaxis = int(joystick0.get_axis(0) * -255)
+        if Yaxis == -254:
+            Yaxis = -255
+
+        Zaxis = int(joystick0.get_axis(2) * -255)
+        if Zaxis == -254:
+            Zaxis = -255
+
+        Taxis = int(joystick0.get_axis(3) * -255)
+        if Taxis == -254:
+            Taxis = -255
 
 
-def run():
-    computerSocket = socket()
-    computerAddress = '172.16.0.2'  # ip laptop
-    computerPort = 12346
-    computerSocket.connect((computerAddress, computerPort))
+        # Lights Controll
+        brightnessScaleFactor = 10 ** (len(str(brightness))-1)
+        if joystick0.get_button(2) == 1:                         #Lights dimmer
+            brightness -= brightnessScaleFactor
+        elif joystick0.get_button(4) == 1:                       #lights brighter
+            brightness += brightnessScaleFactor
 
-    arduinoAddress = ('172.16.0.3', 5000)
-    arduinoSocket = socket(AF_INET, SOCK_DGRAM)
+        if joystick0.get_button(0) == 1:
+            if toggle1 == 1:
+                brightness = 255
+            else:
+                brightness = 0
+            toggle1 *= -1
+            time.sleep(.2)
 
-    while True:
-        # read bytes and turn them into a meaningful string
-        inbytes = (computerSocket.recv(1024))
-        text = str(inbytes)
-        text = text.split("'")
-        inValuesString = text[1]
+        if brightness > 255:
+            brightness = 255
+        elif brightness < 0:
+            brightness = 0
 
-        # breaks out values from joystick and converts to floats
-        surge = float(inValuesString.split(",")[0])  # Front-Back
-        sway = float(inValuesString.split(",")[1])  # Left-right
-        yaw = float(inValuesString.split(",")[2])  # turning
-        heave = float(inValuesString.split(",")[3])  # Up-down
-        brightness = float(inValuesString.split(",")[4])  # Light brightness
 
-        # Strafe code
+        surge = Xaxis
+        sway = Yaxis
+        heave = Taxis
+        yaw = Zaxis
+
+       # Strafe code
         angle = math.atan2(sway, surge)  # convert to polar
         angle = angle / math.pi * 180  # convert to degrees
         # angle -= 135                                                 #rotate coordinates
@@ -72,55 +115,33 @@ def run():
         rearLeftPower = -frontRightPower
 
         # Steering code
-        yaw *= -1  # Steering scaling value.  More negative = harder steering.  Max is -1, effective min is -0.1
+        yaw *= -.5  # Steering scaling value.  More negative = harder steering.  Max is -1, effective min is -0.1
 
         frontLeftPower += yaw
         frontRightPower -= yaw
-        rearLeftPower -= yaw
-        rearRightPower += yaw
+        rearLeftPower += yaw
+        rearRightPower -= yaw
 
         # Vertical code
         leftVerticalPower = int(heave)
         rightVerticalPower = int(heave)
 
-        frontLeftPower = clamp(frontLeftPower, -255, 255)
-        rearLeftPower = clamp(rearLeftPower, -255, 255)
-        frontRightPower = clamp(frontRightPower, -255, 255)
-        rearRightPower = clamp(rearRightPower, -255, 255)
-        rightVerticalPower = clamp(rightVerticalPower, -255, 255)
-        leftVerticalPower = clamp(leftVerticalPower, -255, 255)
-
-
-        #frontRightPower =  0
-        #frontLeftPower = 0
-        #rearRightPower = 0
-        #rearLeftPower = 0
-        #leftVerticalPower = 0
-        #rightVerticalPower = 0
-
         fullData = str(int(frontRightPower*-1)) + "," + str(int(rearRightPower)) + "," + str(
-            int(frontLeftPower*-1)) + "," + str(int(rearLeftPower*-1)) + "," + str(leftVerticalPower) + "," + str(
+            int(frontLeftPower)) + "," + str(int(rearLeftPower*-1)) + "," + str(leftVerticalPower) + "," + str(
             rightVerticalPower) + "," + str(int(brightness)) + ",;"
 
         print(fullData)
 
         arduinoSocket.sendto(bytes(fullData, 'UTF-8'), arduinoAddress)  # send command to arduino
 
-        # wait for response from Arduino
+
         fromArduino = (arduinoSocket.recv(1024))
 
         # Split out message from arduino
         text = str(fromArduino)
         text = text.split('"')
         text = text[1].split("'")
-        batteryVoltage = text[0]
-        loopTime = text[1]
 
-        # send stuff to computer
-        computerSocket.send(bytes(str(batteryVoltage+"'"+loopTime), 'UTF-8'))
+        print(text)
 
-
-if __name__ == '__main__':
-    run()
-    computerSocket.close()
-    arduinoSocket.close()
+        time.sleep(.05)
