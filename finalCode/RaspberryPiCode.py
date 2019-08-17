@@ -26,11 +26,12 @@ def run():
         inValuesString = text[1]
 
         # breaks out values from joystick and converts to floats
-        surge = float(inValuesString.split(",")[0])  # Front-Back
-        sway = float(inValuesString.split(",")[1])  # Left-right
-        yaw = float(inValuesString.split(",")[2])  # turning
-        heave = float(inValuesString.split(",")[3])  # Up-down
+        surge = float(inValuesString.split(",")[0])
+        sway = float(inValuesString.split(",")[1])
+        yaw = float(inValuesString.split(",")[2])
+        heave = float(inValuesString.split(",")[3])
         brightness = float(inValuesString.split(",")[4])  # Light brightness
+        camTilt = float(inValuesString.split(",")[5])  # Light brightness
 
         # Strafe code
         angle = math.atan2(sway, surge)  # convert to polar
@@ -100,7 +101,7 @@ def run():
 
         fullData = str(int(frontRightPower*-1)) + "," + str(int(rearRightPower)) + "," + str(
             int(frontLeftPower*-1)) + "," + str(int(rearLeftPower*-1)) + "," + str(leftVerticalPower) + "," + str(
-            rightVerticalPower) + "," + str(int(brightness)) + ",;"
+            rightVerticalPower) + "," + str(int(brightness)) + "," + str(int(camTilt)) + ",;"
 
         print(fullData)
 

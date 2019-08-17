@@ -11,6 +11,12 @@ import socketserver
 from threading import Condition
 from http import server
 
+WIDTH=1024
+HEIGHT=768
+FRAMERATE = 24
+CAM_ROTATION = 180
+PORT = 8000
+
 PAGE="""\
 <html>
 <head>
@@ -18,7 +24,7 @@ PAGE="""\
 </head>
 <body>
 <center><h1>ROV Video feed</h1></center>
-<center><img src="stream.mjpg" width="1024" height="768"></center>
+<center><img src="stream.mjpg" width='""" + str(WIDTH) + """' height='""" + str(HEIGHT) + """'></center>
 </body>
 </html>
 """
@@ -83,13 +89,13 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-with picamera.PiCamera(resolution='1024x768', framerate=24) as camera:
+with picamera.PiCamera(resolution=str(WIDTH) + 'x' + str(HEIGHT), framerate=FRAMERATE) as camera:
     output = StreamingOutput()
     #Uncomment the next line to change your Pi's Camera rotation (in degrees)
-    camera.rotation = 180
+    camera.rotation = CAM_ROTATION
     camera.start_recording(output, format='mjpeg')
     try:
-        address = ('', 8000)
+        address = ('', PORT)
         server = StreamingServer(address, StreamingHandler)
         server.serve_forever()
     finally:

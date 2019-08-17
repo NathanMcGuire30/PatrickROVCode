@@ -1,3 +1,4 @@
+#include <Servo.h>
 #include <Ethernet.h>
 #include <EthernetUdp.h>
 #include <SPI.h>
@@ -13,11 +14,11 @@ EthernetUDP Udp;                                          //Define UDP Object
 //Motor ports
 int Motor1Pin1 = 40;
 int Motor1Pin2 = 42;
-int Motor1Enable = 44;
+int Motor1Enable = 4;
 
 int Motor2Pin1 = 41;              
 int Motor2Pin2 = 43;
-int Motor2Enable = 45;
+int Motor2Enable = 5;
 
 int Motor3Pin1 = 32;              
 int Motor3Pin2 = 34;
@@ -35,10 +36,12 @@ int Motor6Pin1 = 37;
 int Motor6Pin2 = 39;
 int Motor6Enable = 8;
 
+Servo camPitch;
+
 int i=0;
 int loopTime = 0;
 //Other pins
-int lightPin = 46;
+int lightPin = 3;
 int battPin = 0;
 
 int lastMsgTime = 0;
@@ -54,11 +57,13 @@ void setup() {
 
   pinMode(lightPin, OUTPUT);
   blinkLights();
+
+  camPitch.attach(44);
 }
 
 void loop() {
   //Check for data  
-  while(Udp.parsePacket() == 0) {
+  while(Udp.parsePacket() == 0) {           //While loop runs untill we get comms
     //Feedback controll goes here
     loopTime = millis() - lastMsgTime;
     delay(1);
@@ -68,7 +73,8 @@ void loop() {
     }
   }
 
-  if(hasComms == false) {
+  //This all happens once we get comms
+  if(hasComms == false) {         //This happens the first time we get comms
     blinkLights();
     hasComms = true;
   }
@@ -76,8 +82,7 @@ void loop() {
   double battVoltage = analogRead(battPin);
   battVoltage /= 204.6;
   battVoltage *= 4.0;
-
-  Serial.println(battVoltage);
+  //Serial.println(battVoltage);
   
   lastMsgTime = millis();			//Reset time of message
   Udp.read(packetBuffer, 1024);     //Reading the data request on the Udp
@@ -91,6 +96,7 @@ void loop() {
   int Motor5Power = getValue(datReq, ',', 4).toInt();       
   int Motor6Power = getValue(datReq, ',', 5).toInt();       
   int brightness = getValue(datReq, ',', 6).toInt();        //Light
+  int cameraAngle = getValue(datReq, ',', 7).toInt();       //Camera pitch
   
   runMotor(Motor1Power, Motor1Pin1, Motor1Pin2, Motor1Enable);
   runMotor(Motor2Power, Motor2Pin1, Motor2Pin2, Motor2Enable);
@@ -99,6 +105,8 @@ void loop() {
   runMotor(Motor5Power, Motor5Pin1, Motor5Pin2, Motor5Enable);
   runMotor(Motor6Power, Motor6Pin1, Motor6Pin2, Motor6Enable);
   analogWrite(lightPin, brightness);
+  camPitch.write(cameraAngle);
+  //Serial.println(cameraAngle);
 
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
   Udp.print(String(battVoltage) + "'" + String(loopTime));
