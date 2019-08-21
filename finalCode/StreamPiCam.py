@@ -22,7 +22,7 @@ PAGE="""\
 <head>
 <title>Patrick is an egg</title>
 </head>
-<body>
+<body bgcolor="black">
 <center><h1>ROV Video feed</h1></center>
 <center><img src="stream.mjpg" width='""" + str(WIDTH) + """' height='""" + str(HEIGHT) + """'></center>
 </body>
