@@ -11,13 +11,13 @@ import socketserver
 from threading import Condition
 from http import server
 
-WIDTH=1024
-HEIGHT=768
+WIDTH = 1024
+HEIGHT = 768
 FRAMERATE = 24
 CAM_ROTATION = 180
 PORT = 8000
 
-PAGE="""\
+PAGE = """\
 <html>
 <head>
 <title>Patrick is an egg</title>
@@ -28,6 +28,7 @@ PAGE="""\
 </body>
 </html>
 """
+
 
 class StreamingOutput(object):
     def __init__(self):
@@ -45,6 +46,7 @@ class StreamingOutput(object):
                 self.condition.notify_all()
             self.buffer.seek(0)
         return self.buffer.write(buf)
+
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -85,13 +87,15 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_error(404)
             self.end_headers()
 
+
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
+
 with picamera.PiCamera(resolution=str(WIDTH) + 'x' + str(HEIGHT), framerate=FRAMERATE) as camera:
     output = StreamingOutput()
-    #Uncomment the next line to change your Pi's Camera rotation (in degrees)
+    # Uncomment the next line to change your Pi's Camera rotation (in degrees)
     camera.rotation = CAM_ROTATION
     camera.start_recording(output, format='mjpeg')
     try:

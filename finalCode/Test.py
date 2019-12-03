@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Code to run on the computer
+# Code to run on the computer
 
 from socket import *
 import pygame
@@ -24,11 +24,11 @@ arduinoSocket = socket(AF_INET, SOCK_DGRAM)
 
 while True:
     brightness = 0
-    print("waiting for connection\nSafe to stop program")                 #wait for connection
+    print("waiting for connection\nSafe to stop program")  # wait for connection
     endLoop = False
     print("Make sure to stop the program on the robot before the computer\n")
 
-    while (endLoop == False):                       #send values
+    while (endLoop == False):  # send values
         pygame.event.get()
 
         # read values from joystick
@@ -48,12 +48,11 @@ while True:
         if Taxis == -254:
             Taxis = -255
 
-
         # Lights Controll
-        brightnessScaleFactor = 10 ** (len(str(brightness))-1)
-        if joystick0.get_button(2) == 1:                         #Lights dimmer
+        brightnessScaleFactor = 10 ** (len(str(brightness)) - 1)
+        if joystick0.get_button(2) == 1:  # Lights dimmer
             brightness -= brightnessScaleFactor
-        elif joystick0.get_button(4) == 1:                       #lights brighter
+        elif joystick0.get_button(4) == 1:  # lights brighter
             brightness += brightnessScaleFactor
 
         if joystick0.get_button(0) == 1:
@@ -69,13 +68,12 @@ while True:
         elif brightness < 0:
             brightness = 0
 
-
         surge = Xaxis
         sway = Yaxis
         heave = Taxis
         yaw = Zaxis
 
-       # Strafe code
+        # Strafe code
         angle = math.atan2(sway, surge)  # convert to polar
         angle = angle / math.pi * 180  # convert to degrees
         # angle -= 135                                                 #rotate coordinates
@@ -126,14 +124,13 @@ while True:
         leftVerticalPower = int(heave)
         rightVerticalPower = int(heave)
 
-        fullData = str(int(frontRightPower*-1)) + "," + str(int(rearRightPower)) + "," + str(
-            int(frontLeftPower)) + "," + str(int(rearLeftPower*-1)) + "," + str(leftVerticalPower) + "," + str(
+        fullData = str(int(frontRightPower * -1)) + "," + str(int(rearRightPower)) + "," + str(
+            int(frontLeftPower)) + "," + str(int(rearLeftPower * -1)) + "," + str(leftVerticalPower) + "," + str(
             rightVerticalPower) + "," + str(int(brightness)) + ",;"
 
         print(fullData)
 
         arduinoSocket.sendto(bytes(fullData, 'UTF-8'), arduinoAddress)  # send command to arduino
-
 
         fromArduino = (arduinoSocket.recv(1024))
 

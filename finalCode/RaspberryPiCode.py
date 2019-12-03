@@ -6,7 +6,7 @@ import math
 
 
 def clamp(value, minvalue, maxvalue):
-    return(min(max(value, minvalue), maxvalue))
+    return (min(max(value, minvalue), maxvalue))
 
 
 def run():
@@ -91,16 +91,15 @@ def run():
         rightVerticalPower = clamp(rightVerticalPower, -255, 255)
         leftVerticalPower = clamp(leftVerticalPower, -255, 255)
 
+        # frontRightPower =  0
+        # frontLeftPower = 0
+        # rearRightPower = 0
+        # rearLeftPower = 0
+        # leftVerticalPower = 0
+        # rightVerticalPower = 0
 
-        #frontRightPower =  0
-        #frontLeftPower = 0
-        #rearRightPower = 0
-        #rearLeftPower = 0
-        #leftVerticalPower = 0
-        #rightVerticalPower = 0
-
-        fullData = str(int(frontRightPower*-1)) + "," + str(int(rearRightPower)) + "," + str(
-            int(frontLeftPower*-1)) + "," + str(int(rearLeftPower*-1)) + "," + str(leftVerticalPower) + "," + str(
+        fullData = str(int(frontRightPower * -1)) + "," + str(int(rearRightPower)) + "," + str(
+            int(frontLeftPower * -1)) + "," + str(int(rearLeftPower * -1)) + "," + str(leftVerticalPower) + "," + str(
             rightVerticalPower) + "," + str(int(brightness)) + "," + str(int(camTilt)) + ",;"
 
         print(fullData)
@@ -118,10 +117,10 @@ def run():
         loopTime = text[1]
 
         # send stuff to computer
-        computerSocket.send(bytes(str(batteryVoltage+"'"+loopTime), 'UTF-8'))
+        computerSocket.send(bytes(str(batteryVoltage + "'" + loopTime), 'UTF-8'))
 
 
 if __name__ == '__main__':
     run()
-    computerSocket.close()
-    arduinoSocket.close()
+    #computerSocket.close()
+    #arduinoSocket.close()
