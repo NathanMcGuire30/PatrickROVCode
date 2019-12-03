@@ -122,5 +122,5 @@ def run():
 
 if __name__ == '__main__':
     run()
-    #computerSocket.close()
-    #arduinoSocket.close()
+    # computerSocket.close()
+    # arduinoSocket.close()
